@@ -95,7 +95,11 @@ RCT_EXPORT_METHOD(logEvent:(NSString*)eventName metaData:(NSDictionary*)metaData
 RCT_EXPORT_METHOD(handlePushMessage:(RCTResponseSenderBlock)callback) {
     NSLog(@"handlePushMessage");
 
-    // This is a stub. The iOS Intercom client automatically handles push notifications
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([Intercom isIntercomPushNotification:userInfo]) {
+            [Intercom handleIntercomPushNotification:userInfo];
+        }
+    });
 
     callback(@[[NSNull null]]);
 }
