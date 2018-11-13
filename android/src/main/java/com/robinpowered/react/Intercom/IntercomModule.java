@@ -120,7 +120,7 @@ public class IntercomModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void handlePushMessage(Callback callback) {
+    public void handlePushMessage(@Nullable ReadableMap pushMessage, Callback callback) {
         Intercom.client().handlePushMessage();
         callback.invoke(null, null);
     }
