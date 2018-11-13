@@ -92,14 +92,18 @@ RCT_EXPORT_METHOD(logEvent:(NSString*)eventName metaData:(NSDictionary*)metaData
 };
 
 // Available as NativeModules.IntercomWrapper.handlePushMessage
-RCT_EXPORT_METHOD(handlePushMessage:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(handlePushMessage:(NSDictionary*)pushMessage callback:(RCTResponseSenderBlock)callback) {
     NSLog(@"handlePushMessage");
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([Intercom isIntercomPushNotification:userInfo]) {
-            [Intercom handleIntercomPushNotification:userInfo];
-        }
-    });
+    // Pushwoosh is stealing the launch notification from us, so until that root cause is fixed, 
+    // this method is called on pushwoosh's pushReceived event with the notification as a param
+    // and will display the messenger if that push message is an intercom notification.
+    // I tried [Intercom handlePushMessage:pushMessage] here but it wasn't playing ball.    
+    if ([Intercom isIntercomPushNotification:userInfo]) {
+        dispatch_async(dispatch_get_main_queue(), ^{        
+            [Intercom presentMessenger];
+        });
+    }
 
     callback(@[[NSNull null]]);
 }
