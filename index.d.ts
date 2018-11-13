@@ -69,9 +69,10 @@ export function logEvent(eventName: string, metadata: { [key: string]: string })
 
 /**
  * handlePushMessage
+ * @param {any} [pushMessage]
  * @returns {Promise<void>}
  */
-export function handlePushMessage(): Promise<void>;
+export function handlePushMessage(pushMessage?: any): Promise<void>;
 
 /**
  * displayMessenger
