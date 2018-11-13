@@ -99,7 +99,7 @@ RCT_EXPORT_METHOD(handlePushMessage:(NSDictionary*)pushMessage callback:(RCTResp
     // this method is called on pushwoosh's pushReceived event with the notification as a param
     // and will display the messenger if that push message is an intercom notification.
     // I tried [Intercom handlePushMessage:pushMessage] here but it wasn't playing ball.    
-    if ([Intercom isIntercomPushNotification:userInfo]) {
+    if ([Intercom isIntercomPushNotification:pushMessage]) {
         dispatch_async(dispatch_get_main_queue(), ^{        
             [Intercom presentMessenger];
         });
